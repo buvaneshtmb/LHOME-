@@ -5,10 +5,19 @@ import Image from 'next/image';
 import css from '../styles/loginRegister.module.scss';
 import ReactFlagsSelect from "react-flags-select";
 import { TbReload } from "react-icons/tb";
+import { AxiosService } from '../services/ApiService';
+import { Toast } from 'reactstrap';
 function LoginRegisterPage() {
 
     const [showLogin, setShowLogin] = React.useState(true);
     const [isChecked, setIsChecked] = React.useState<boolean>(false);
+    const [contactNumber, setContactNumber] = React.useState('');
+    const [name, setName] = React.useState('');
+    const [phone_number, setPhone_Number] = React.useState('');
+    const [checkforwhatsapp, setCheckForWhatsapp] = React.useState(false);
+    const [email, setEmail] = React.useState('');
+    const [pincode, setPincode] = React.useState('');
+    const [otp, setOtp] = React.useState('');
 
     const [select, setSelect] = React.useState("IN");
     const onSelect = (code) => setSelect(code)
@@ -17,12 +26,60 @@ function LoginRegisterPage() {
         setShowLogin(!showLogin);
     };
 
-    const handleCheckboxChange = () => {
+    const handleCheckboxChange = (e) => {
+        setCheckForWhatsapp(e.target.checked)
+        console.log(e.target.checked)
         setIsChecked(!isChecked);
     };
     const [otpForm, setOtpForm] = React.useState(true);
-    const handleClick = () =>{
-        setOtpForm(!otpForm);
+
+    const handleClick = async(e) =>{
+        e.preventDefault();
+
+        const res = await AxiosService.post('user/otp',{ phone_number : contactNumber})
+        if(res?.data?.statusCode === 201){
+            // Toast.succsess(res.message)
+            sessionStorage.setItem("phone_number",contactNumber) 
+            setOtpForm(!otpForm);
+        }
+        else{
+            // Toast.success(res.data.message)
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const phoneNumber = sessionStorage.getItem("phone_number")
+        const res = await AxiosService.post('user/verifyotp',{ phone_number : phoneNumber, otp : otp})
+        if(res?.data?.statusCode === 200){
+            sessionStorage.setItem("email",res?.data?.email)
+            sessionStorage.setItem("name",res?.data?.name)
+            sessionStorage.setItem("phone_number",res.data?.phone_number)
+            sessionStorage.setItem("access_token",res.data?.access_token)
+            // Toast.success(res?.data?.message)
+            //routing
+        }
+        else{
+            // 
+        }
+    }
+
+    const handleResend = async(e) => {
+        e.preventDefault()
+
+    }
+
+
+    const handleSignup = async(e) => {
+        e.preventDefault()
+        const checkWhatsapp = checkforwhatsapp ? 'Y' : 'N'
+        const res = await AxiosService.post('user',{ name, phone_number, checkforwhatsapp : checkWhatsapp , email, pincode })
+        if(res.data.statusCode === 201){
+            // Toast.success("")
+        }
+        else{
+        // Toast.success(res.message)
+        }
     }
 
     return (
@@ -51,7 +108,7 @@ function LoginRegisterPage() {
                                     />
                                 </div>
 
-                                <input type='number' inputMode='text' className={css.LRInput} placeholder='00000 00000' />
+                                <input type='number' inputMode='text' onChange={(e)=>setContactNumber(e.target.value)} className={css.LRInput} placeholder='00000 00000' />
                                 <button className={css.LoginButton} onClick={handleClick}>LOGIN</button>
                             </div>
                             <p>Or Login With</p>
@@ -65,10 +122,10 @@ function LoginRegisterPage() {
                             <div className={css.otp_Box}>
                                 <p className={css.otp_box_content} style={{padding:0}}>Phone Number: 6379649524</p>
                                 <p className={css.otp_box_content}>One Time Password</p>
-                                <input type='text' className={css.otp_input} placeholder='Enter OTP'/>
+                                <input type='text' className={css.otp_input} onChange={(e) => setOtp(e.target.value)} placeholder='Enter OTP'/>
                                 <p className={css.otp_box_content}>Your OTP will expire in <span style={{color:'#F44336'}}> 00.10</span></p>
-                                <button className={css.otp_button}>Submit</button><br/>
-                                <button className={css.otp_resend_button}><TbReload /> Resend</button>
+                                <button className={css.otp_button} onClick={handleSubmit}>Submit</button><br/>
+                                <button className={css.otp_resend_button} onClick={handleResend}><TbReload /> Resend</button>
                             </div>
                             <div className={css.otp_Verify_content}>We have sent OTP to your number, please verify</div>
                             </div>
@@ -82,7 +139,7 @@ function LoginRegisterPage() {
                                 <div className={css.mainContent}>
                                     <h2>Sign Up</h2>
                                     <div>
-                                        <input type='text' className={css.SInput1} placeholder='Enter your name' />
+                                        <input type='text' className={css.SInput1} onChange={(e)=>setName(e.target.value)} placeholder='Enter your name' />
                                         <div className={css.InputContainer}>
                                             <div className={css.dropdown_icon}>
                                                 <ReactFlagsSelect
@@ -93,7 +150,7 @@ function LoginRegisterPage() {
                                                     className={css.number_dropdown}
                                                 />
                                             </div>
-                                            <input type='number' className={css.SInput2} placeholder='00000 00000' />
+                                            <input type='number' className={css.SInput2} onChange={(e)=>setPhone_Number(e.target.value.toString())} placeholder='00000 00000' />
                                         </div>
                                         <div className={css.whatsapplabel}>
                                             <div className='w-full flex flex-col justify-center items-right pe-2'>
@@ -105,10 +162,10 @@ function LoginRegisterPage() {
                                                 <label htmlFor="customCheckbox" className={css.checkmark}></label>
                                             </div>
                                         </div>
-                                        <input type='text' className={css.SInput1} placeholder='Enter your email' />
-                                        <input type='text' className={css.SInput0} placeholder='Enter your current residence pincode' />
+                                        <input type='text' className={css.SInput1} onChange={(e)=>setEmail(e.target.value)} placeholder='Enter your email' />
+                                        <input type='text' className={css.SInput0} onChange={(e)=>setPincode(e.target.value)} placeholder='Enter your current residence pincode' />
 
-                                        <button className={css.SignButton}>REGISTER</button>
+                                        <button className={css.SignButton} onClick={handleSignup} >REGISTER</button>
                                     </div>
                                     <p>Or Login With</p>
                                     <div className={css.mainVal}>
