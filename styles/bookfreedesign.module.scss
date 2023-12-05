@@ -1,7 +1,7 @@
 .book_Content{
     width: 70%;
     border: 1px solid #9F9F9F;
-    height: 60vh;
+    height: 55vh;
     margin: 0% auto;
     border-radius: 2vw;
     padding: 3% 5%;
@@ -26,5 +26,23 @@
     font-weight: 600;
     @media (max-width:1024px){
       font-size: 10px;  
+    }
+}
+.Bookfreedesign_Button_content{
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.Bookfreedesign_Button{
+    background-color: #F44336;
+    color: #fff;
+    padding: 1% 4%;
+    border-radius: 0.5vw;
+    margin-top: 2%;
+    font-weight: 600;
+    font-size: 1.1vw;
+    @media (max-width:1024px){
+        font-size: 14px;
     }
 }

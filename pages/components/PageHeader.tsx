@@ -9,6 +9,9 @@ import { BsHeadset } from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal';
 import LoginRegisterPage from '../loginRegisterPage';
 import { AiFillCloseCircle } from 'react-icons/ai'
+import { getToken } from "../../services/sessionProvider";
+import Cookies from 'js-cookie';
+
 
 interface pageheaderproperties {
   screenwidth: number;
@@ -46,6 +49,7 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
   const [show, setShow] = React.useState(false);
   const [chatBoxShow, setChatBoxShow] = React.useState(false);
   const [receivedData, setReceivedData] = React.useState('');
+  const [isAuth , setAuth] = React.useState(false);
 
   React.useEffect(() => {
     function getsettings() {
@@ -99,7 +103,8 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
         });
     }
     getsettings();
-  }, [screenwidth, assetpath]);
+    setAuth(getToken()? true : false);
+  }, [screenwidth, assetpath , show]);
 
 
   const handlePopup = () => {
@@ -114,6 +119,12 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
     setReceivedData(data);
   };
 
+  const handleLogout = ()=>{
+    Cookies.remove('token');
+    Cookies.remove('userId');
+    console.log('Cookies deleted successfully:', Cookies.get());
+    setAuth(false)
+  }
 
 
   return (
@@ -267,7 +278,7 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
                       </div>
                       : ''
                     }
-                    <div className={css.userLoginRegisterHolder}>
+                   {isAuth ?<button className={css.userLoginRegister} onClick={handleLogout}> Logout </button> :  <div className={css.userLoginRegisterHolder}>
                       <button className={css.userLoginRegister} onClick={handlePopup}>
                         Login / Register
                       </button>
@@ -275,10 +286,10 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
                         <Modal.Header  >
                           <AiFillCloseCircle onClick={handleClose} />
                         </Modal.Header>
-                        <LoginRegisterPage />
+                        <LoginRegisterPage setShow={setShow}/>
                       </Modal>
 
-                    </div>
+                    </div>}
                   </div>
                 </div>
               </div>)}

@@ -6,7 +6,7 @@ import css from '../styles/bookfreedesign.module.scss'
 import Selectbutton from './components/SelectButton/selectbutton';
 import { MdApartment,MdOutlineHolidayVillage,MdHome  } from "react-icons/md";
 import Radibutton from './components/SelectButton/RadiButton';
-import { Bookfreedropdown } from './components/SelectButton/Bookfreedropdown';
+import  Bookfreedropdown  from './components/SelectButton/Bookfreedropdown';
 
 
 interface homeproperties {
@@ -94,9 +94,9 @@ const district: string[]=[
                 <div className={css.book_Content}>
                     <Selectbutton labels={labels}/>
                     <Radibutton/>
-                    <Bookfreedropdown/>
+                    <Bookfreedropdown district={district} heading="My Locality is"/>
                 </div>
-
+                <div className={css.Bookfreedesign_Button_content}><button className={css.Bookfreedesign_Button}>NEXT</button></div>
             </div>
         </>
     )

@@ -15,6 +15,7 @@ import Modal from 'react-bootstrap/Modal'
 import { AiFillCloseCircle } from 'react-icons/ai';
 import DetailsOfimg from '../../DetailsOfimg';
 import { AxiosService } from '../../../services/ApiService'
+import { getUserId } from "../../../services/sessionProvider";
 
 const StylishHomeProducts: React.FC = () => {
     let assetpath = config.assetPrefix ? `${config.assetPrefix}` : ``;
@@ -49,7 +50,7 @@ const StylishHomeProducts: React.FC = () => {
             let fetchData = async () => {
                 try {
                   const response = await AxiosService.post('/wishes', {
-                    loginId: '2',
+                    loginId: getUserId(),
                     categoryId : '1'
                   });
                   setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);
@@ -103,11 +104,11 @@ const StylishHomeProducts: React.FC = () => {
         
         try {
 
-            const resp = await AxiosService.post(`/wish/${index}`, {loginId: '2' , categoryId : '1'})
+            const resp = await AxiosService.post(`/wish/${index}`, {loginId: getUserId() , categoryId : '1'})
 
             if(resp?.status === 200){
                 const response = await AxiosService.post('/wishes', {
-                    loginId: '2',
+                    loginId: getUserId(),
                     categoryId : '1'
                   });
                   setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);            }

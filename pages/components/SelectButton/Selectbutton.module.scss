@@ -24,6 +24,7 @@
   .radio_button_Heading
   {
     padding-top: 4%;
+    padding-bottom: 1%;
     margin-bottom: unset;
     font-size: 1vw;
     font-weight: 600;
@@ -35,4 +36,24 @@
   .Button_content{
     display: flex;
     justify-content: space-between;
+  }
+  .input_Dropdown:focus{
+    border-color: unset;
+    box-shadow: unset;
+  }
+  .input_Dropdown{
+    padding: 1% 0% 1% 10%;
+  }
+  .bookfree_dropdown{
+    position: relative;
+  }
+  .show{
+    display: block;
+    color: #F44336;
+    position: absolute;
+    bottom: 15%;
+    left: 2%;
+  }
+  .hidden{
+    display: none;
   }
