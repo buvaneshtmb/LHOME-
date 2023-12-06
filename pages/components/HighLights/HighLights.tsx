@@ -16,8 +16,11 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import DetailsOfimg from '../../DetailsOfimg';
 import { AxiosService } from '../../../services/ApiService'
 import { getUserId } from "../../../services/sessionProvider";
+import toast, { useToaster } from 'react-hot-toast';
+
 
 const StylishHomeProducts: React.FC = () => {
+    const toaster = useToaster();
     let assetpath = config.assetPrefix ? `${config.assetPrefix}` : ``;
     const [trendings, setTrendings] = React.useState([]);
     const [wishlistimage, setWishListImage] = React.useState("");
@@ -49,11 +52,12 @@ const StylishHomeProducts: React.FC = () => {
             });
             let fetchData = async () => {
                 try {
-                  const response = await AxiosService.post('/wishes', {
-                    loginId: getUserId(),
-                    categoryId : '1'
-                  });
-                  setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);
+                        const response = await AxiosService.post('/wishes', {
+                          loginId: getUserId(),
+                          categoryId : '1'
+                        });
+                        setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);
+
                 } catch (error) {
                   console.error('Error:', error.message);
                 }
@@ -99,19 +103,22 @@ const StylishHomeProducts: React.FC = () => {
     };
     const router = useRouter();
 
-    const handlelike = async(index) => {
-        console.log(index);
-        
+    const handlelike = async(index) => {        
         try {
-
-            const resp = await AxiosService.post(`/wish/${index}`, {loginId: getUserId() , categoryId : '1'})
+            if(getUserId()){
+                const resp = await AxiosService.post(`/wish/${index}`, {loginId: getUserId() , categoryId : '1'})
+            
 
             if(resp?.status === 200){
                 const response = await AxiosService.post('/wishes', {
                     loginId: getUserId(),
                     categoryId : '1'
                   });
-                  setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);            }
+                  setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);   
+             }        
+            }else {
+                alert('please login to use');
+             } 
 
         } catch (error) {
             console.log(error)

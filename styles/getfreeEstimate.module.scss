@@ -1,0 +1,110 @@
+.getfree_Estimate_Content{
+    width: 75%;
+    border: 0.1vw solid #222222;
+    margin: 0 auto;
+    height: 50vh;
+    border-radius: 1vw ;
+}
+.GetfreeEstimate_head{
+    color: #F44336;
+    font-size: 2vw;
+    font-weight: 700;
+    @media (max-width:1024px){
+        font-size: 24px;
+    }
+}
+.GetfreeEstimate_Button_Back{
+    background-color: #fff !important;
+    color: #222222 !important;
+    border: 1px solid #222222 !important;
+    padding: 1% 4% !important;
+    border-radius: 0.5vw !important;
+    font-weight: 600 !important;
+    font-size: 1.1vw !important;
+    margin-right: 5% !important;
+    @media (max-width:1024px){
+        font-size: 14px !important;
+    }
+}
+.GetfreeEstimate_Button{
+    background-color: #F44336 !important;
+    color: #fff !important;
+    padding: 1% 4% !important;
+    border-radius: 0.5vw !important;
+    font-weight: 600 !important;
+    font-size: 1.1vw !important;
+    @media (max-width:1024px){
+        font-size: 14px !important;
+    }
+}
+.radio_button_Heading{
+    font-weight: 600;
+    margin-top: 25px;
+}
+.GetfreeEstimate_content_value{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.GetfreeEstimate_para{
+    color: #222222;
+    font-size: 1vw;
+    width: 70%;
+    margin: 0 auto;
+}
+.mutli_step{
+    width: 100%;
+}
+.mutli_step div div button span{
+    display: flex;
+    flex-direction: column;
+}
+.mutli_step div{
+    width: 70%;
+    margin: 0 auto;
+}
+.mutli_step div div{
+    width: 100%;
+}
+.Count_content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+    @media (max-width:1024px){
+        font-size: 24px;
+    }
+}
+
+.decrement{
+    color: #F44336;
+
+}
+.increment{
+    color: #F58785;
+}
+.number_count{
+    color: #222222;
+    text-align: center;
+    margin: 5% 0;
+    width: 15%;
+}
+.Count_content_component{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 50px;
+    align-items: center;
+}
+.Count_name{
+    text-align: left;
+    padding-left: 2%;
+    width: 40%;
+    font-size: 1.2vw;
+    color: #222222;
+    font-weight: 400;
+    @media (max-width:1024px){
+        font-size: 12px;
+    }
+}

@@ -38,9 +38,7 @@ const ImageSlider: React.FC<Sliderproperties> = ({ screenwidth, screenheight, sw
 
   React.useEffect(() => {
     let api = simpleCallInitAPI(`${assetpath}/assets/settings.json`);
-    api.then((data: any) => {
-      console.log(data);
-      
+    api.then((data: any) => {      
       totalsliderimages = data.data.settings.sliderimages;
       totalsliderimagesalt = data.data.settings.sliderimagesalt;
       sliderleftblock.current.style.position = "absolute";

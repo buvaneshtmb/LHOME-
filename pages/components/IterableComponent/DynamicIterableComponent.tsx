@@ -7,6 +7,8 @@ import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import DetailsOfimg from '../../DetailsOfimg';
 import { AxiosService } from '../../../services/ApiService';
+import { getUserId } from '../../../services/sessionProvider';
+import toast, { useToaster } from 'react-hot-toast';
 
 
 interface properties {
@@ -17,6 +19,7 @@ interface properties {
 
 
 const DynamicIterableComponent: React.FC<properties> = ({ data , categoryId}) => {
+    const toaster = useToaster();
     const [show, setShow] = React.useState(false);
     const [selectedItem, setSelectedItem] = React.useState(null);
     const [res , setRes] = React.useState([]);
@@ -24,11 +27,12 @@ const DynamicIterableComponent: React.FC<properties> = ({ data , categoryId}) =>
     React.useEffect(()=>{
         let fetchData = async () => {
             try {
-              const response = await AxiosService.post('/wishes', {
-                loginId: '2',
-                categoryId : categoryId
-              });
-              setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);
+                 const response = await AxiosService.post('/wishes', {
+                   loginId: getUserId(),
+                   categoryId : categoryId
+                 });
+                 setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);
+             
             } catch (error) {
               console.error('Error:', error.message);
             }
@@ -38,19 +42,20 @@ const DynamicIterableComponent: React.FC<properties> = ({ data , categoryId}) =>
     },[])
 
      
-    const handlelike = async(index) => {
-        console.log(index);
-        
+    const handlelike = async(index) => {        
         try {
-
-            const resp = await AxiosService.post(`/wish/${index}`, {loginId: '2' , categoryId : categoryId})
-
-            if(resp?.status === 200){
-                const response = await AxiosService.post('/wishes', {
-                    loginId: '2',
-                    categoryId : categoryId
-                  });
-                  setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);            }
+            if(getUserId()){
+                const resp = await AxiosService.post(`/wish/${index}`, {loginId: getUserId() , categoryId : categoryId})
+    
+                if(resp?.status === 200){
+                    const response = await AxiosService.post('/wishes', {
+                        loginId: getUserId(),
+                        categoryId : categoryId
+                      });
+                      setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);            }
+            }else{
+                alert('please login to use');
+            }
 
         } catch (error) {
             console.log(error)

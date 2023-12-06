@@ -44,7 +44,6 @@ function LoginRegisterPage({setShow}) {
         },
         validationSchema: OtpSchema,
         onSubmit: async (values , { setSubmitting }) => {
-          console.log('OTP submitted:', values.otp);
           try{
             const response =  await AxiosService.post('/signin/auth' , {
             number: number ,
@@ -53,7 +52,6 @@ function LoginRegisterPage({setShow}) {
           const { user, token } = response.data;
           Cookies.set('userId', user.id, { expires: 7, path: '/' });
           Cookies.set('token', token, { expires: 7, path: '/' });
-          console.log('Cookies set successfully:', Cookies.get());
           setShow(false)
         }catch(err){
             console.log(err);

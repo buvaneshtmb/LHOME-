@@ -9,13 +9,14 @@ interface Button {
 }
 
 interface AppProps {
-    labels:string[];  
+    labels:string[]; 
+    heading:string; 
 }
 const generateButtons = (labels: string[]): Button[] => {
     return labels.map(label => ({ label, value: false }));
   };
 
-  const Selectbutton: React.FC<AppProps> = ({ labels }) => {
+  const Selectbutton: React.FC<AppProps> = ({ labels,heading }) => {
     const [buttons, setButtons] = useState<Button[]>(generateButtons(labels));
   
 
@@ -29,7 +30,7 @@ const generateButtons = (labels: string[]): Button[] => {
 
   return (
     <div>
-        <p className={css.select_button_Heading}>I own a...</p>
+        <p className={css.select_button_Heading}>{heading}</p>
       <SpecialButton buttons={buttons} handleButtonClick={handleButtonClick} />
     </div>
   );

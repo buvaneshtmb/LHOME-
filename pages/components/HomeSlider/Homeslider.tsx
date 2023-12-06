@@ -3,6 +3,7 @@ import ImageSlider from '../ImageSlider';
 import * as config from "../../../next.config.js";
 import Form from "./Form";
 import css from './Homeslider.module.scss';
+import { useRouter } from 'next/router';
 
 interface HomeSliderProps {
   screenwidth: number;
@@ -23,6 +24,10 @@ const HomeSlider: React.FC<HomeSliderProps> = ({ screenwidth, screenheight }) =>
 
         }, 1500)
   }, [screenwidth, assetpath]);
+  const router = useRouter();
+  const handleEstimate = () =>{
+   router.push('/GetfreeEstimate');
+  }
   
   return (
 
@@ -43,7 +48,7 @@ const HomeSlider: React.FC<HomeSliderProps> = ({ screenwidth, screenheight }) =>
                            }
                         </div>
                         <div className={css.estimatebuttonholder}>
-                           <button className={css.estimatebutton}>
+                           <button className={css.estimatebutton} onClick={handleEstimate}>
                               <label className={css.estimatetext}>
                                  Get Free Estimate
                               </label>

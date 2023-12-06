@@ -16,12 +16,16 @@ import Modal from 'react-bootstrap/Modal'
 import { AiFillCloseCircle } from 'react-icons/ai';
 import DetailsOfimg from '../../DetailsOfimg';
 import { AxiosService } from "../../../services/ApiService";
+import { getUserId } from "../../../services/sessionProvider";
+import toast, { useToaster } from 'react-hot-toast';
 
 interface propproperty {
     Citie: any
 }
 
 const HightLights: React.FC<propproperty> = ({ Citie }) => {
+    const toaster = useToaster();
+
     let assetpath = config.assetPrefix ? `${config.assetPrefix}` : ``;
     const [stylishHomeProducts, setStylishHomeProducts] = React.useState([]);
     const [wishlistimage, setWishListImage] = React.useState("");
@@ -65,15 +69,15 @@ const HightLights: React.FC<propproperty> = ({ Citie }) => {
             let fetchData = async () => {
                 try {
                   const response = await AxiosService.post('/wishes', {
-                    loginId: '2',
+                    loginId: getUserId(),
                     categoryId : '4'
                   });
-                  setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);
+                  setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);
                   const response1 = await AxiosService.post('/wishes', {
-                    loginId: '2',
+                    loginId: getUserId(),
                     categoryId : '5'
                   });
-                  setRes1(Array.isArray(response1.data?.trendWish) ? response1.data?.trendWish : []);
+                  setRes1(Array.isArray(response1.data?.wishlist) ? response1.data?.wishlist : []);
                 } catch (error) {
                   console.error('Error:', error.message);
                 }
@@ -82,19 +86,20 @@ const HightLights: React.FC<propproperty> = ({ Citie }) => {
               fetchData();
     }, [assetpath]);
 
-    const handlelike = async(index , categoryId) => {
-        console.log(index);
-        
+    const handlelike = async(index , categoryId) => {        
         try {
-
-            const resp = await AxiosService.post(`/wish/${index}`, {loginId: '2' , categoryId : categoryId})
-
-            if(resp?.status === 200){
-                const response = await AxiosService.post('/wishes', {
-                    loginId: '2',
-                    categoryId : categoryId
-                  });
-                  categoryId == '4' ? setRes(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []) :setRes1(Array.isArray(response.data?.trendWish) ? response.data?.trendWish : []);            }
+           if(getUserId()){
+               const resp = await AxiosService.post(`/wish/${index}`, {loginId: getUserId() , categoryId : categoryId})
+   
+               if(resp?.status === 200){
+                   const response = await AxiosService.post('/wishes', {
+                       loginId: getUserId(),
+                       categoryId : categoryId
+                     });
+                     categoryId == '4' ? setRes(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []) :setRes1(Array.isArray(response.data?.wishlist) ? response.data?.wishlist : []);            }
+           } else{
+            alert('please login to use')
+           }
 
         } catch (error) {
             console.log(error)

@@ -54,8 +54,7 @@ const ApiCallInit = (DataProperties:any,id:any,resultRows:string,checkCount:stri
           }
       });   
       params.data.where = nwhere;
-    //   console.log(statevalues);console.log(evalue);
-      nwhere = {};
+     nwhere = {};
       Object.keys(apiewhere).forEach((fld)=>{
          if (apiewhere[fld].toUpperCase().indexOf("G#") < 0 && apiewhere[fld].toUpperCase().indexOf("S#") < 0){
              nwhere[fld] = apiewhere[fld];

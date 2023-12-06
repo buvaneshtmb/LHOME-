@@ -33,7 +33,6 @@ const DetailsOfimg: React.FC<properties> = ({ data, selectedItem }) => {
                 console.log(error);
             });
     }, [assetpath]);
-    console.log(data);
     return (
         <React.Fragment>
             <div className={css.detailOff}>

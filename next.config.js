@@ -6,7 +6,7 @@ const nextConfig = {
   swcMinify: true,
   assetPrefix: '/',
   images: {
-    domains: isProd ? ['https://lhome.co.in'] : ['localhost'],
+    domains: isProd ? ['https://www.lhome.co.in'] : ['localhost'],
     unoptimized: isProd,
   },
   distDir: 'dist',
@@ -14,7 +14,7 @@ const nextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   output: isProd ? 'export' : undefined,
-  assetPrefix: isProd ? 'https://lhome.co.in' : undefined,
+  assetPrefix: isProd ? 'https://www.lhome.co.in' : undefined,
   trailingSlash: true,
 };
 

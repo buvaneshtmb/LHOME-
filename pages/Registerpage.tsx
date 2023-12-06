@@ -32,9 +32,7 @@ const Registerpage = ({toggleForm}) => {
         validationSchema: SignupSchema,
         onSubmit: async (values) => {
             try {
-              console.log('Form submitted with values:', values);
               const response = await AxiosService.post('/register',  values );
-              console.log(response);
             } catch (error) {
               console.error('Error:', error.message);
             }

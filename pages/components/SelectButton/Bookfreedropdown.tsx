@@ -7,7 +7,6 @@ interface districtprops {
     heading: string;
 }
 const Bookfreedropdown: React.FC<districtprops> = ({district,heading}) => {
-    console.log(district);
     const [districtList, setDistrictList] = React.useState("");
     return (
         <>

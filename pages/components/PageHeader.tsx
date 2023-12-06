@@ -122,7 +122,6 @@ const PageHeader: React.FC<pageheaderproperties> = ({ screenwidth, screenheight,
   const handleLogout = ()=>{
     Cookies.remove('token');
     Cookies.remove('userId');
-    console.log('Cookies deleted successfully:', Cookies.get());
     setAuth(false)
   }
 

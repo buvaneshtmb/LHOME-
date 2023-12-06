@@ -23,7 +23,6 @@ const Login = ({toggleForm , otpForm , setOtpForm , select , onSelect , setNumbe
         validationSchema: LoginSchema,
         onSubmit: async (values) => {
           try {
-            console.log('Form submitted with values:', values);
             const response = await AxiosService.post('/signin', { number: Number(values.number) });
             setNumber(Number(values.number))      
             setOtpForm(!otpForm);
@@ -31,8 +30,6 @@ const Login = ({toggleForm , otpForm , setOtpForm , select , onSelect , setNumbe
             console.error('Error:', error);
       
             if (error.response) {
-              console.log('Server responded with status code:', error.response.status);
-              console.log('Response data:', error.response.data);
       
               if (error.response.status === 400 && error.response.data === 'user not registered') {
                 formik.setFieldError('number', 'Phone number is not registered');
